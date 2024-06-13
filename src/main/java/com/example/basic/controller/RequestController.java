@@ -139,9 +139,15 @@ public class RequestController {
     //     return map;
     // }
 
+    // 프런트 url : localhost:5500/request.html / 백 url : localhost:8080/req/OOO
+    // ===> 다른 서버라고 인식
+    // 그냥 브라우저에서 요청을 보낼때는 아무 문제 없음
+    // 하지만 자바스크립트를 통해서 요청을 보내게 되면 다른 서버일때 접근 거부함
+    // 이때 백 서버는 접근을 허용해주기 위한 코드를 작성해줘야함
+    // ===> @CrossOrigin : GET에 대해서 자바스크립트/브라우저에서의 모든 요청을 허용해주는 동작을 하게됨
     @CrossOrigin
-    // 다른 서버 뭐라뭐라 뭐라뭐라 ...
     // resources - static 에 request.html 파일 넣어두면 @CrossOrigin 없어도 오류 안뜸
+    // static 폴더안에 들어가있으면 spring에서 live server처럼 열 수 있게됨
     @GetMapping("req/get")
     public Map<String, String> reqGet(
             @RequestParam Map<String, String> map) {
