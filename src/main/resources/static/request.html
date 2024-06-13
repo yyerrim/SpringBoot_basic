@@ -1,0 +1,53 @@
+<head>
+    <!-- 한글 안깨지게 하는 방법 -->
+    <meta charset="utf8">
+</head>
+
+<body>
+    <button>요청1 (GET)</button>
+    <button>요청2 (POST)</button>
+    <button>요청3 (JSON)</button>
+    <input type="text" name="data">
+
+    <script>
+        const input = document.querySelector('[name=data]');
+
+        const btn1 = document.querySelector('button:nth-child(1)');
+        const btn2 = document.querySelector('button:nth-child(2)');
+        const btn3 = document.querySelector('button:nth-child(3)');
+
+        btn1.addEventListener('click', async () => {
+            const res = await fetch(`http://127.0.0.1:8080/req/get?data=${input.value}`);
+            // fetch를 동작시킴과 동시에 아래 코드 실행됨 (병렬 처리) ---> await 사용해서 방지
+            const data = await res.json();
+            console.log(data);
+        });
+
+        btn2.addEventListener('click', async () => {
+            const formData = new FormData();
+            formData.append('data', input.value);
+            const res = await fetch(`http://127.0.0.1:8080/req/post`, {
+                method: 'post',
+                body: formData
+            });
+            const data = await res.json();
+            console.log(data);
+        });
+
+        btn3.addEventListener('click', async () => {
+            const jsonData = {}
+            jsonData.data = input.value;
+            const d = JSON.stringify(jsonData);
+            const res = await fetch(`http://127.0.0.1:8080/req/json`, {
+                method: 'post',
+                body: d,
+                headers: {
+                    'content-type': 'application/json'
+                }
+            });
+            const data = await res.json();
+            console.log(data);
+        });
+
+    </script>
+</body>

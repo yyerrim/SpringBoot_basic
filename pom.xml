@@ -55,6 +55,14 @@
 			<artifactId>spring-boot-devtools</artifactId>
 			<scope>runtime</scope>
 		</dependency>
+
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<!-- <version>3.0.2</version> -->
+			<version>3.0.3</version>
+			<!-- mybatis 3.0.2에서는 안됨 -> 3.0.3으로 바꿈 -->
+		</dependency>
 	</dependencies>
 
 	<build>

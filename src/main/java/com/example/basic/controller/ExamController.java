@@ -7,6 +7,8 @@ import java.util.Map;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
@@ -49,6 +51,18 @@ public class ExamController {
     public Map<String, String> reqData(
         @RequestParam Map<String, String> map
     ) {
+        return map;
+    }
+
+    // 연습 - 회원가입 기능 작성하기 : 단일 서버
+    @GetMapping("req/signup")
+    public String signup() {
+        return "signup";
+    }
+    @PostMapping("req/signup")
+    @ResponseBody
+    public Map<String, Object> signupPost(
+            @RequestBody Map<String, Object> map) {
         return map;
     }
 

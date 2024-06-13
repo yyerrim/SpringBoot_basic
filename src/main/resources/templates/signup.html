@@ -1,0 +1,35 @@
+<body>
+    <form action="/req/signup" method="post">
+    <!-- <form> : form 뒤에 아무것도 안써도됨 -->
+        ID: <input type="text" name="id"><br>
+        PW: <input type="text" name="pw"><br>
+        NAME: <input type="text" name="name"><br>
+        <button>회원가입</button>
+    </form>
+
+    <script>
+        const id = document.querySelector('[name=id]');
+        const pw = document.querySelector('[name=pw]');
+        const name = document.querySelector('[name=name]');
+        const btn = document.querySelector('button');
+
+        btn.addEventListener('click', async (e) => {
+            e.preventDefault(); // 버튼의 기본 동작 막기(submit)
+
+            const jsonData = {};
+            jsonData.id = id.value;
+            jsonData.pw = pw.value;
+            jsonData.name = name.value;
+
+            const res = await fetch(`/req/signup`, {
+                method: 'post',
+                headers: {
+                    'content-type': 'application/json'
+                },
+                body: JSON.stringify(jsonData)
+            });
+            const data = await res.json();
+            console.log(data);
+        });
+    </script>
+</body>

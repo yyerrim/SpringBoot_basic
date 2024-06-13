@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.example.basic.model.Emp;
-import com.example.basic.model.Member;
+import com.example.basic.model.Json;
 
 import jakarta.servlet.http.HttpServletRequest;
 
@@ -140,21 +140,28 @@ public class RequestController {
     // }
 
     @CrossOrigin
+    // 다른 서버 뭐라뭐라 뭐라뭐라 ...
+    // resources - static 에 request.html 파일 넣어두면 @CrossOrigin 없어도 오류 안뜸
     @GetMapping("req/get")
     public Map<String, String> reqGet(
             @RequestParam Map<String, String> map) {
         return map;
     }
 
+    @CrossOrigin
     @PostMapping("req/post")
     public Map<String, String> reqPost(
             @RequestParam Map<String, String> map) {
         return map;
     }
 
+    // 분산 서버 (js_request.html 활용한거)
+    @CrossOrigin
     @PostMapping("req/json")
-    public Map<String, String> reqJson(
-            @RequestBody Map<String, String> map) {
-        return map;
+    // @ModelAttribute 사용하듯이 클래스 만들어줘야함 : Json.java
+    public Json reqJson(
+            @RequestBody Json json) {
+        return json;
     }
+
 }
