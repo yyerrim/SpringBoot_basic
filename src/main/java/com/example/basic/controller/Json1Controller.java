@@ -16,7 +16,9 @@ public class Json1Controller {
     @GetMapping("json1/string")
     @ResponseBody
     public String json() {
-        return "json/string"; // String인 경우 return "OOO" 문장 그대로 호출됨
+        return "json/string";
+        // @Controller + @ResponseBody을 사용하거나 @RestController를 사용했을때
+        // String인 경우 return에 적은 문장 그대로 출력됨
     }
 
     @GetMapping("json1/map")

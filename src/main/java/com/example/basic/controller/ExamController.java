@@ -1,16 +1,22 @@
 package com.example.basic.controller;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.example.basic.entity.Major;
+import com.example.basic.repository.MajorRepository;
 
 @Controller
 public class ExamController {
@@ -64,6 +70,25 @@ public class ExamController {
     public Map<String, Object> signupPost(
             @RequestBody Map<String, Object> map) {
         return map;
+    }
+
+    // PDF 4.35 연습문제
+    @Autowired
+    MajorRepository majorRepository;
+
+    @GetMapping("/major/add")
+    @ResponseBody
+    public Major majorAdd(
+            @ModelAttribute Major mj) {
+        Date date = new Date();
+        mj.setEbtbDate(date);
+        return majorRepository.save(mj);
+    }
+    @GetMapping("/major/list")
+    @ResponseBody
+    public List<Major> majorList(
+            @ModelAttribute Major mj) {
+        return majorRepository.findAll();
     }
 
 }
