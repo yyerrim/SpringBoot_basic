@@ -91,7 +91,7 @@ class BasicApplicationTests { // 보통 테스트 하려는 것과 관련된 이
 	@Test
 	@Transactional // Entity에서 Player를 Lazy로 바꿨기 때문에 @Transactional을 적용해야 쿼리 2번 실행
 	void PlayerRepository조회Test() {
-		Optional<Player> opt = playerRepository.findById(2); // findById : optional 형태로 결과 나옴
+		Optional<Player> opt = playerRepository.findById(2); // findById : optional 형태로 결과 나옴 -> Optional<Player> opt
 		if (opt.isPresent()) { // 만약 opt가 값을 가지고 있다면
 			Player p = opt.get(); // Player 데이터 꺼내오기
 			System.out.println(p.getPlayerName()); // DEBUG CONSULE에 찍힘
@@ -104,7 +104,7 @@ class BasicApplicationTests { // 보통 테스트 하려는 것과 관련된 이
 	// // 팀을 조회한 후 소속된 Player들의 이름 출력
 	// @Test
 	// // @Transactional // import : org.springframework.transaction.annotation.Transactional
-	// // ===> Team Entity를 Eager로 바꿔놨기 때문에 @Transactional을 적용 안해도 오류 안남
+	// // ===> Team Entity를 Eager로 바꿔놨기 때문에 @Transactional을 적용하지 않아도 오류 안남
 	// void TeamRepository조회Test() {
 	// 	Optional<Team> opt = teamRepository.findById(1);
 	// 	if (opt.isPresent()) {
@@ -118,19 +118,25 @@ class BasicApplicationTests { // 보통 테스트 하려는 것과 관련된 이
 	// }
 	// JUnit은 DB에 1번 접속 한 후 연결을 끊어버림 : Lazy
 	// -> 위의 코드는 쿼리 실행이 2번(findById, getPlayers)이기 때문에 오류 발생
-	// DB 접속이 끊어져서 조회가 되지 않는 상황 1)@Transactional 사용 2)Lazy...를 Eager로 변경
+	// DB 접속이 끊어져서 조회가 되지 않는 상황 : 1)@Transactional 사용 2)Lazy...를 Eager로 변경
 
-	// 처음에 팀 조회
-	// 소속된 플레이어가 누구냐고 물어보면 알수있는 방법이 없음
-	// 그래서 플레이어 테이블을 다시 select 하면서 팀id로 조회 ===> 쿼리 2번 실행
+	// 팀 조회를 한 후 소속된 플레이어가 누구 알고 싶으면 플레이어 테이블을 다시 select 하면서 팀 id로 플레이어 조회 ===> 쿼리 2번 실행
 	// 플레이어를 조회해서 팀을 물어보면 처음부터 join을 하면서 동작 ===> 쿼리 1번 실행
 
-	// many쪽에서는 연관관계에 있는 것을 첨부터 join으로 같이 조회
-	// one쪽에서는 외래키가 없기 때문에 자기데이터만 조회하고 그 이후에 필요하다면 쿼리문장을 한번 더 실행해서 데이터 갖고옴
+	// many쪽에서는 연관관계에 있는 것을 처음부터 join으로 같이 조회
+	// one쪽에서는 외래키가 없기 때문에 자기 데이터만 조회하고 그 이후에 필요하다면 쿼리문장을 한번 더 실행해서 데이터 갖고옴
 	// === Lazy (뒤늦게 조회) : JPA에서는 효율성을 위해서 이 방식으로 감 - 사용할지도 안할지도 모르는 데이터를 처음부터 조회할 필요는 없기 때문
 	// <---> Eager
 
-	// 문제 상황 : 양방향일때
+	// 양방향일때 문제 발생
+	// Team을 조회해서 Team이 갖고 있는 모든 데이터를 출력하라고 명령
+	// Team 클래스가 갖고있는 toString 메소드가 호출됨
+	// 이 Team toString 메소드는 players를 출력하라는 명령어가 있기 때문에 Player 클래스가 호출됨
+	// 그러면 Player 클래스가 갖고있는 toString 메소드도 호출됨
+	// 이 Player toString 메소드는 team을 출력하라는 명령어가 있기 때문에 다시 Team 클래스가 호출됨
+	// 이 과정이 무한 반복되어버림(오류 메세지 : StackOverflowError)
+	// ===> 한쪽의 연결고리를 끊어주면됨 : Player 클래스에 @ToString(exclude = "team")
+
 	@Test
 	// @Transactional // import : org.springframework.transaction.annotation.Transactional
 	// ===> Team Entity를 Eager로 바꿔놨기 때문에 @Transactional을 적용 안해도 오류 안남

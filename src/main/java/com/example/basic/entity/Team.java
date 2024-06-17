@@ -23,8 +23,9 @@ public class Team {
     @OneToMany(mappedBy = "team", fetch = FetchType.EAGER)
     List<Player> players = new ArrayList<>();
 
-    // @Override // toString은 @Data가 자동으로 만들어주는거임
+    // // @Data가 자동으로 toString() 생성
+    // @Override
     // public String toString() {
-    //     return teamId + teamName + players; // StackOverflowError
+    //     return teamId + teamName + players;
     // }
 }

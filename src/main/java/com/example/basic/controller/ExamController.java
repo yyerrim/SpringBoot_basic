@@ -85,6 +85,7 @@ public class ExamController {
     @ResponseBody
     public Major majorAdd(
             @ModelAttribute Major mj) {
+            // @RequestParam으로 ?의 값들을 따로 꺼내서 major 객체를 만들어서 넣으려면 귀찮기 때문에 @ModelAttribute 사용
         Date date = new Date();
         mj.setEbtbDate(date);
         return majorRepository.save(mj);

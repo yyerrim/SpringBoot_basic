@@ -13,7 +13,7 @@ import lombok.ToString;
 @Entity
 @Data
 
-@ToString(exclude = "team")  // 한쪽의 연결고리를 끊어주면됨
+@ToString(exclude = "team")
 
 public class Player {
     @Id
@@ -28,14 +28,13 @@ public class Player {
     // // -> 잘못만들어진거니까 Player 테이블 삭제 후 재구동하기
 
     @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name="team_id")
-    @JsonIgnore
-    // 실행하면 무한반복으로 출력됨 (서로 무한으로 부름) ===> player에서는 team 제외
-    // DBController.java 203번째줄
+    @JoinColumn(name = "team_id")
+    @JsonIgnore // : player에서는 team 출력 제외
     Team team;
 
+    // // @Data가 자동으로 toString() 생성
     // @Override
     // public String toString() {
-    // return playerId + playerName + team; // StackOverflowError // 한쪽의 연결고리를 끊어주면됨
+    // return playerId + playerName + team;
     // }
 }

@@ -59,18 +59,7 @@ public class DBController {
         return empMapper.select(ename);
     }
 
-    // // 데이터 입력하는 mybatis 코드
-    // @GetMapping("/mybatis/demo/add")
-    // public String mybatisDemoAdd(
-    //         @RequestParam Map<String, Object> map) {
-    //     int result = demoMapper.insert(map);
-    //     if (result == 0) {
-    //         return "데이터 추가 실패";
-    //     } else {
-    //         return "데이터 추가 성공";
-    //     }
-    // }
-    // "데이터 추가 실패" 뜨게 하려면 try-catch로 해줘야함
+    // 데이터 입력하는 mybatis 코드
     @GetMapping("/mybatis/demo/add")
     public String mybatisDemoAdd(
             @RequestParam Map<String, Object> map) {
@@ -79,6 +68,12 @@ public class DBController {
         } catch (Exception e) { // SQLIntegrityConstraintViolationException
             return "데이터 추가 실패";
         }
+        // int result = demoMapper.insert(map);
+        // if (result == 0) {
+        //     return "데이터 추가 실패";
+        // } else {
+        //     return "데이터 추가 성공";
+        // }
         return "데이터 추가 성공";
     }
 
@@ -200,5 +195,5 @@ public class DBController {
     public List<Player> player() {
         return playerRepository.findAll();
     }
-    // 실행하면 무한반복으로 출력됨 (서로 무한으로 부름) ===> 해결 완료
+    // 실행하면 무한반복으로 출력됨 (서로 무한으로 부름) ===> Player entity에 @JsonIgnore 추가
 }
