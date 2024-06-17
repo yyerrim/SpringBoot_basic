@@ -1,35 +1,28 @@
 package com.example.basic.entity;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
 import jakarta.persistence.Id;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.ManyToOne;
 import lombok.Data;
 
 @Entity
 @Data
-public class Hospital {
+public class Course {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(nullable = false)
     Integer id;
-
-    @Column(length = 50, nullable = false)
-    String sido;
 
     @Column(length = 50, nullable = false)
     String name;
 
-    @Column(nullable = false)
-    Integer medical;
-
-    @Column(nullable = false)
-    Integer room;
-
-    @Column(length = 15, nullable = false)
-    String tel;
-
-    @Column(length = 100, nullable = false)
-    String address;
+    @ManyToOne
+    @JoinColumn(name = "major_id", nullable = false)
+    @JsonIgnore
+    Major major;
 }

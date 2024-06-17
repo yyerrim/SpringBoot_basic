@@ -15,7 +15,12 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 
+import com.example.basic.entity.Dept;
+import com.example.basic.entity.Emp;
 import com.example.basic.entity.Major;
+import com.example.basic.entity.Team;
+import com.example.basic.repository.DeptRepository;
+import com.example.basic.repository.EmpRepository;
 import com.example.basic.repository.MajorRepository;
 
 @Controller
@@ -89,6 +94,23 @@ public class ExamController {
     public List<Major> majorList(
             @ModelAttribute Major mj) {
         return majorRepository.findAll();
+    }
+
+    // Emp, Dept url로 JSON 결과 출력
+    @Autowired
+    DeptRepository deptRepository;
+    @Autowired
+    EmpRepository empRepository;
+
+    @GetMapping("/dept")
+    @ResponseBody
+    public List<Dept> dept() {
+        return deptRepository.findAll();
+    }
+    @GetMapping("/emp")
+    @ResponseBody
+    public List<Emp> emp() {
+        return empRepository.findAll();
     }
 
 }

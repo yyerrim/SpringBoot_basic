@@ -16,13 +16,17 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.basic.dao.DemoDao;
 import com.example.basic.entity.Hospital;
+import com.example.basic.entity.Player;
 import com.example.basic.entity.ServiceCenter;
 import com.example.basic.entity.TableExam1;
+import com.example.basic.entity.Team;
 import com.example.basic.mapper.DemoMapper;
 import com.example.basic.mapper.EmpMapper;
 import com.example.basic.repository.HospitalRepository;
+import com.example.basic.repository.PlayerRepository;
 import com.example.basic.repository.ServiceCenterRepository;
 import com.example.basic.repository.TableExam1Repository;
+import com.example.basic.repository.TeamRepository;
 
 @RestController
 public class DBController {
@@ -179,8 +183,22 @@ public class DBController {
 
     @GetMapping("/hos/list")
     public List<Hospital> hosList() {
-        List<Hospital> result = hospitalRepository.findAll();
-        return result;
+        return hospitalRepository.findAll();
     }
 
+    // Team, Player 조회 (JSON)
+    @Autowired
+    TeamRepository teamRepository;
+    @Autowired
+    PlayerRepository playerRepository;
+
+    @GetMapping("/team")
+    public List<Team> team() {
+        return teamRepository.findAll();
+    }
+    @GetMapping("/player")
+    public List<Player> player() {
+        return playerRepository.findAll();
+    }
+    // 실행하면 무한반복으로 출력됨 (서로 무한으로 부름) ===> 해결 완료
 }
