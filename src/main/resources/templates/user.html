@@ -1,0 +1,21 @@
+<!-- 원래는 아래 코드도 적어줘야함
+<html xmlns:th="">
+</html> -->
+
+아이디:<span>[[${user.userId}]]</span><br>
+이름:<span>[[${user.userName}]]님</span><br>
+나이:<span>[[${user.userAge}]]</span><br>
+
+<hr>
+아이디:<span th:text="${user.userId}"></span><br>
+
+<!-- 이름:<span th:text="${user.userName}"></span>님<br> ===> css로 글자를 한꺼번에 제어하는게 힘들어짐 -->
+이름:<span th:text="${user.userName} + 님"></span><br>
+
+나이:<span th:text="@{|${user.userAge}세|}"></span><br>
+<!-- url 만들어줄때 주로 사용 -->
+
+<hr>
+아이디:<span data-th-text="${user.userId}"></span><br>
+이름:<span data-th-text="${user.userName}"></span><br>
+나이:<span data-th-text="${user.userAge}"></span><br>

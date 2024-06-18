@@ -1,0 +1,20 @@
+<table border="1">
+    <tr>
+        <td>번호</td>
+        <td>시군구</td>
+        <td>기관명</td>
+        <td>진료과수</td>
+        <td>병상수</td>
+        <td>전화번호</td>
+        <td>주소</td>
+    </tr>
+    <tr th:each="hos : ${hospitalList}">
+        <td th:text="${hos.id}"></td>
+        <td th:text="${hos.sido}"></td>
+        <td th:text="${hos.name}"></td>
+        <td th:text="${hos.medical}"></td>
+        <td th:text="${hos.room}"></td>
+        <td th:text="${hos.tel}"></td>
+        <td th:text="${hos.address}"></td>
+    </tr>
+</table>

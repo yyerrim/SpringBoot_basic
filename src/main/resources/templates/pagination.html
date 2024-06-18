@@ -1,0 +1,26 @@
+<style>
+    .active {
+        background-color: aqua;
+    }
+</style>
+
+<!-- 이전 버튼 -->
+<a th:if="${page > 10}" th:href="@{|/pagination?page=${page - 10}|}" th:text="[이전]"></a>
+
+<!-- block 태그 : 아무 의미 없음 (<div>와 비슷) - 특별한 의미는 두지 않고 thymeleaf 기능을 적용하고 싶을때 사용 -->
+<!-- th:each="변수(중복되지 않는 값이기만 하면 아무거나 써도 상관없음) : 리스트" -->
+<!-- 함수 표현할때 # 사용 -->
+<th:block th:each="p : ${#numbers.sequence(startPage, endPage)}">
+    <!-- <a th:href="@{|/pagination?page=${p}|}" th:text="${p}" th:class="${page == p} ? 'active' : ''"></a> -->
+
+    <!-- PDF 5.11 연습문제 -->
+    <a th:if="${p != page}" th:href="@{|/pagination?page=${p}|}" th:text="${p}"> </a>
+    <span th:unless="${p != page}" th:text="${p}"></span>
+</th:block>
+
+<!-- 다음 버튼 -->
+<!-- <a th:href="@{|/pagination?page=${page + 10}|}" th:text="[다음]"></a> -->
+<!-- 오류 : 25페이지에서 다음 버튼 누르면 35페이지로 감 (원래는 31페이지로 가게 해야함) -->
+
+<!-- 오류 해결 : 아래 코드 -->
+<a th:href="@{|/pagination?page=${(page + 9) / 10 * 10 + 1}|}" th:text="[다음]"></a>

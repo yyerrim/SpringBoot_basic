@@ -1,0 +1,30 @@
+<table border="1">
+    <tr>
+        <td>아이디</td>
+        <td>이름</td>
+        <td>나이</td>
+    </tr>
+    <tr th:each="user : ${userList}">
+        <td th:text="${user.userId}"></td>
+        <td th:text="${user.userName}"></td>
+        <td th:text="${user.userAge}"></td>
+    </tr>
+</table>
+<span th:each="num : ${#numbers.sequence(1, 10)}">
+    [[${num}]]
+</span>
+
+<!-- emp 테이블 데이터 조회하기 -->
+<!-- empno와 ename을 HTML의 Table로 출력하기 - th:each 반복문 사용 -->
+<table border="1">
+    <tr>
+        <td>사원번호</td>
+        <td>이름</td>
+        <td>부서</td>
+    </tr>
+    <tr th:each="emp : ${empList}">
+        <td th:text="${emp.empno}"></td>
+        <td th:text="${emp.ename}"></td>
+        <td th:text="${emp.dept.dname}"></td>
+    </tr>
+</table>

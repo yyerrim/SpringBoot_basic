@@ -19,7 +19,7 @@ import lombok.ToString;
 @Entity
 @Data
 
-// @ToString(exclude = "course_list")
+@ToString(exclude = "course_list")
 
 public class Major {
     @Id
@@ -36,8 +36,8 @@ public class Major {
     @Temporal(TemporalType.TIMESTAMP)
     Date ebtbDate;
 
-    // // 아래 코드를 적지 않으면 Course ---> Major 접근만 가능 : 단방향
-    // // 양방향으로 바꾸고 싶다면
-    // @OneToMany(mappedBy = "major", fetch = FetchType.EAGER)
-    // List<Course> course_list = new ArrayList<>();
+    // 아래 코드를 적지 않으면 Course ---> Major 접근만 가능 : 단방향
+    // 양방향으로 바꾸고 싶다면
+    @OneToMany(mappedBy = "major", fetch = FetchType.EAGER)
+    List<Course> course_list = new ArrayList<>();
 }
