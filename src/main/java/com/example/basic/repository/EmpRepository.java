@@ -8,6 +8,8 @@ import org.springframework.data.jpa.repository.Query;
 import com.example.basic.entity.Emp;
 
 public interface EmpRepository extends JpaRepository<Emp, Integer> {
+    // // JPA : application.properties의 설정을 바꾸면 DB 종류에 관계없이 기존 코드를 그대로 실행할 수 있음
+
     // // 사용자정의 메소드로는 도저히 해결이 안될때 사용
     // @Query(nativeQuery = true, value = "select * from emp")
     // // nativeQuery의 단점 : DB에 따라서 동작하지 않는 기능이 만들어질수있음
