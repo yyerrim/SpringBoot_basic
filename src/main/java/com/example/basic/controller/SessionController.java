@@ -105,6 +105,9 @@ public class SessionController {
         }
         session.setAttribute("user", user);
         return "redirect:/main";
+        // redirect:/OOO : 사용자가 보내온 요청을 처리한 후 그 요청을 새롭게 /OOO 주소로 보냄
+        // 기존에 받은 요청(ex.userId, userPw)은 없어짐
+        // 기존에 받은 요청을 같이 새로운 곳으로 보내고 싶다면 ?OOO 작성해주면됨
     }
 
     // 로그아웃 : 세션 안에 있는 데이터를 제거
@@ -120,7 +123,7 @@ public class SessionController {
         UserModel u = (UserModel) session.getAttribute("user"); // object로 들어갔다가 object로 나오기 때문에 형변환
         if (u == null) {
             return "redirect:/login";
-            // "로그인 하고 오세요"를 출력할 수 있는 view 파일을 만들어서 넣어도됨
+            // "로그인 하고 오세요"를 출력할 수 있는 view 파일을 만들어서 리턴시켜도됨
         }
         String id = u.getUserId();
         String pw = u.getUserPw();
