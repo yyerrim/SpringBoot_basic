@@ -1,0 +1,15 @@
+<form action="/login" method="post">
+    ID : <input type="text" name="userId"><br>
+    PW : <input type="password" name="userPw"><br>
+    <input type="submit" value="로그인">
+    <!-- <input type="submit" value="로그인"> : 옛날 방식 - 요즘은 button 사용 -->
+    <!-- 로그인 누르면 @Postmapping으로 가서 session에 값 저장됨-->
+</form>
+<!-- /login 갔을때 이미 로그인되어있다고 출력하기 (main으로 가도록) -->
+<!-- session.user.userId : 로그인을 했기 때문에 안녕 출력 -->
+<!-- session.user.userPw : 로그인을 했기 때문에 1234 출력 -->
+<!-- 서버 끄면 로그인 정보 사라짐 => 다시 서버 키면 사라진 로그인 정보를 출력하라고 하기 때문에 오류 발생 -->
+
+<!-- [[${session.owner}]] -->
+<!-- session.owner.age : 입력하지 않은 값을 출력하라고 하면 오류 발생 -->
+<!-- 앞단계가 있는지 없는지부터 확인하기 (if 사용) -->

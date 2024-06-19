@@ -69,6 +69,13 @@
 			<version>3.0.3</version>
 			<!-- mybatis 3.0.2에서는 안됨 -> 3.0.3으로 바꿈 -->
 		</dependency>
+
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-security</artifactId>
+		</dependency>
+		<!-- 프로젝트 전체가 security화 되어버림 : 어떤 주소를 들어가던지 패스워드 입력해야함(TERMINAL에 password 찍혀나옴) -->
+		<!-- ===> application.properties에 한줄 추가해주면됨 -->
 	</dependencies>
 
 	<build>

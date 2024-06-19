@@ -1,5 +1,8 @@
 package com.example.basic;
 
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -146,6 +149,19 @@ class BasicApplicationTests { // 보통 테스트 하려는 것과 관련된 이
 			Team team = opt.get();
 			System.out.println(team);
 		}
+	}
+
+	@Test
+	void 암호화() throws NoSuchAlgorithmException {
+		String raw = "password1234"; // 암호화 되기 전 비밀번호
+		String rawAndSalt = "abcd1234"; // secret key (마음대로 변경)
+		MessageDigest md = MessageDigest.getInstance("SHA-256");
+		md.update(raw.getBytes());
+		String hex = String.format("%064x", new BigInteger(1, md.digest()));
+		System.out.println("raw의 해시값 : " + hex);
+		md.update(rawAndSalt.getBytes());
+		hex = String.format("%064x", new BigInteger(1, md.digest()));
+		System.out.println("raw+salt의 해시값 : " + hex);
 	}
 
 }

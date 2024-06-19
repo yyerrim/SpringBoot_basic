@@ -1,0 +1,28 @@
+<form action="/join" method="post">
+    ID : <input type="text" name="userId"><br>
+    PW : <input type="password" name="userPw"><br>
+    <input type="submit" value="회원가입">
+</form>
+
+<!-- 유효성 검사 (정규식) -->
+<script>
+    const submit = document.querySelector("[type=submit]");
+    const userId = document.querySelector("[name=userId]");
+    submit.addEventListener('click', (e) => {
+        e.preventDefault(); // 기본 기능 차단
+        const id = userId.value;
+        // 영어 4글자 이상
+        const regex1 = /[a-z]{4,}/;
+        const cond1 = regex1.test(id); // 조건에 맞으면 true
+
+        // 한글 불가
+        const cond2 = id.match(/[가-힣]+/g); // 한글이 있으면 true, 한글이 없으면 false
+        // 플래그 g : 뒤에 나오는 문자까지 전체 검색 'abcd가'
+        if (cond1 && !cond2) {
+            alert('회원가입 동작');
+            document.querySelector('form').submit();
+        } else {
+            alert('ID를 다시 입력해주세요.')
+        }
+    });
+</script>
