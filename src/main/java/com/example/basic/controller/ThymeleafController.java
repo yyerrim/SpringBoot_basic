@@ -6,6 +6,11 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Order;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -80,12 +85,12 @@ public class ThymeleafController {
     @Autowired
     HospitalRepository hospitalRepository;
 
-    @GetMapping("/hospitalList")
-    public String hospitalList(Model model) {
-        List<Hospital> hospitalList = hospitalRepository.findAll();
-        model.addAttribute("hospitalList", hospitalList);
-        return "hospitalList";
-    }
+    // @GetMapping("/hospitalList")
+    // public String hospitalList(Model model) {
+    //     List<Hospital> hospitalList = hospitalRepository.findAll();
+    //     model.addAttribute("hospitalList", hospitalList);
+    //     return "hospitalList";
+    // }
 
     @GetMapping("/mode")
     public String mode(
@@ -124,4 +129,42 @@ public class ThymeleafController {
         return "insert1";
     }
 
+    // 연습) Pasing, 정렬
+    // 1. 한 페이지에 데이터를 10개씩 보여주기
+    // 2. 시군구 오름차순 정렬 - 시군구가 같다면 병원명 내림차순
+    @GetMapping("/hospitalList")
+    public List<Hospital> hospitalList(
+            @RequestParam(defaultValue = "1") int page) {
+        Sort sort = Sort.by(Sort.Order.asc("sido"), Sort.Order.desc("name"));
+        Pageable pageable = PageRequest.of(page - 1, 10, sort);
+        Page<Hospital> p = hospitalRepository.findAll(pageable);
+        List<Hospital> list = p.getContent();
+        return list;
+    }
+
+    // 강사님 풀이
+    @GetMapping("/html/hospital")
+    public String hospital(Model model,
+            @RequestParam(defaultValue = "1") int page) {
+        int startPage = (page - 1) / 10 * 10 + 1;
+        int endPage = startPage + 9;
+        Order ord1 = Order.asc("sido");
+        Order ord2 = Order.desc("name");
+        Sort sort = Sort.by(ord1, ord2);
+        Pageable pageable = PageRequest.of(page - 1, 10, sort);
+        Page<Hospital> p = hospitalRepository.findAll(pageable);
+
+        int totalPage = p.getTotalPages();
+        if (endPage > totalPage) {
+            endPage = totalPage;
+        }
+
+        model.addAttribute("hospitalList", p.getContent());
+        // hospitalList.html에서 "hos : ${hospitalList}"와 이름 같아야함
+
+        model.addAttribute("startPage", startPage);
+        model.addAttribute("endPage", endPage);
+        model.addAttribute("totalPage", totalPage);
+        return "hospitalList";
+    }
 }

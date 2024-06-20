@@ -196,4 +196,5 @@ public class DBController {
         return playerRepository.findAll();
     }
     // 실행하면 무한반복으로 출력됨 (서로 무한으로 부름) ===> Player entity에 @JsonIgnore 추가
+
 }

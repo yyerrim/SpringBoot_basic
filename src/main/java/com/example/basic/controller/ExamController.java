@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -108,10 +112,90 @@ public class ExamController {
     public List<Dept> dept() {
         return deptRepository.findAll();
     }
+    // @GetMapping("/emp")
+    // @ResponseBody
+    // public List<Emp> emp() {
+    //     return empRepository.findAll();
+    // }
+
+    // // Pasing
+    // @GetMapping("/emp")
+    // @ResponseBody
+    // public List<Emp> emp() {
+    //     // 데이터 3개만 출력
+    //     Pageable pageable = PageRequest.of(1, 3); //3개씩 끊어서 두번째 페이지 출력
+    //     Page<Emp> p = empRepository.findAll(pageable);
+    //     List<Emp> list = p.getContent();
+    //     return list;
+    // }
+    // // /emp?page=1 ===> 3개씩 끊어서 첫번째 페이지 출력되도록 해보기
+    // @GetMapping("/emp")
+    // @ResponseBody
+    // public List<Emp> emp(
+    //         @RequestParam(defaultValue = "1") int page) {
+    //     Pageable pageable = PageRequest.of(page - 1, 3);
+    //     Page<Emp> p = empRepository.findAll(pageable);
+    //     List<Emp> list = p.getContent();
+    //     return list;
+    // }
+
+    // // 정렬
+    // @GetMapping("/emp")
+    // @ResponseBody
+    // public List<Emp> emp(
+    //         @RequestParam(defaultValue = "1") int page) {
+    //     // Sort sort = new Sort(); // new 안될때는 static 방식으로
+    //     Sort sort = Sort.by("sal"); // 급여 순 정렬
+    //     Pageable pageable = PageRequest.of(page - 1, 3, sort);
+    //     Page<Emp> p = empRepository.findAll(pageable);
+    //     List<Emp> list = p.getContent();
+    //     return list;
+    // }
+
+    // @GetMapping("/emp")
+    // @ResponseBody
+    // public Map<String, Object> emp(
+    //         @RequestParam(defaultValue = "1") int page) {
+    //     Map<String, Object> map = new HashMap<>();
+    //     Sort sort = Sort.by("sal");
+    //     // // 급여가 같다면 이름순으로
+    //     // Sort sort = Sort.by("sal", "ename");
+    //     Pageable pageable = PageRequest.of(page - 1, 3, sort);
+    //     Page<Emp> p = empRepository.findAll(pageable);
+    //     List<Emp> list = p.getContent();
+    //     map.put("emp_list", list);
+    //     map.put("total_page", p.getTotalPages());
+    //     map.put("total_count", p.getTotalElements());
+    //     map.put("page", page);
+    //     return map;
+    // }
+
+    // // 사용자 정의 메소드(EmpRepository.java)를 사용해서 이름에 a 들어가는 사람, Pasing 출력
+    // @GetMapping("/emp")
+    // @ResponseBody
+    // public Map<String, Object> emp(
+    //         @RequestParam(defaultValue = "1") int page) {
+    //     Map<String, Object> map = new HashMap<>();
+    //     Sort sort = Sort.by("sal");
+    //     Pageable pageable = PageRequest.of(page - 1, 3, sort);
+    //     List<Emp> list = empRepository.findByEnameLike("%a%", pageable);
+    //     map.put("emp_list", list);
+    //     map.put("page", page);
+    //     return map;
+    // }
+
+    // Sort 말고 사용자 정의 메소드 OrderBy 사용해보기
     @GetMapping("/emp")
     @ResponseBody
-    public List<Emp> emp() {
-        return empRepository.findAll();
+    public Map<String, Object> emp(
+            @RequestParam(defaultValue = "1") int page) {
+        Map<String, Object> map = new HashMap<>();
+        Sort sort = Sort.by("sal");
+        Pageable pageable = PageRequest.of(page - 1, 3, sort);
+        List<Emp> list = empRepository.findByEnameLikeOrderByEnameAsc("%a%", pageable);
+        map.put("emp_list", list);
+        map.put("page", page);
+        return map;
     }
-
+    
 }

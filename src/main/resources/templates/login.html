@@ -13,3 +13,26 @@
 <!-- [[${session.owner}]] -->
 <!-- session.owner.age : 입력하지 않은 값을 출력하라고 하면 오류 발생 -->
 <!-- 앞단계가 있는지 없는지부터 확인하기 (if 사용) -->
+
+<script>
+    // 로그인 시 '로그인 되었습니다.' 메세지 출력
+    const submit = document.querySelector('[type=submit]');
+    const id = document.querySelector('[name=userId]');
+    const pw = document.querySelector('[name=userPw]');
+
+    submit.addEventListener('click', async (e) => {
+        e.preventDefault(); // 버튼의 기본 기능 막기
+
+        const obj = { 'userId': id.value, 'userPw': pw.value }; // 객체로 만들기
+        const json = JSON.stringify(obj); // JSON 형태의 문자열이 만들어짐
+        const url = '/login';
+
+        const res = await fetch(url, { // 통신 방법 : GET, POST, JSON(요즘 트렌드)
+            method: 'post',
+            headers: { 'Content-Type': 'application/json' },
+            body: json
+        });
+        const data = await res.json(); // = res.text();
+        alert(data.msg);
+    });
+</script>

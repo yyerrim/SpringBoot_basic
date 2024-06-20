@@ -27,4 +27,13 @@ class SecurityTests {
 		log.info("match {}", isMatch);
 	}
 
+	@Test
+	void 스프링암호화() {
+		String pw = passwordEncoder.encode("1");
+		System.out.println(pw);
+		pw = passwordEncoder.encode("1");
+		System.out.println(pw);
+		// 실행되는 시간에 따라 암호화가 다르게 나옴 ===> DB에 들어간 데이터와 비교가 안됨
+	}
+
 }

@@ -1,9 +1,14 @@
 package com.example.basic.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.example.basic.entity.Board;
 import com.example.basic.entity.User;
@@ -77,6 +82,7 @@ public class SessionController {
         userRepository.save(u);
         return "redirect:/login";
     }
+    // TODO 아이디가 중복되면 비밀번호가 변경되고있음
 
     @GetMapping("/login")
     public String login() {
@@ -97,14 +103,21 @@ public class SessionController {
     //     return "redirect:/main";
     // }
     @PostMapping("/login")
-    public String loginPost(UserModel user, HttpSession session) {
+    @ResponseBody
+    public Map<String, Object> loginPost(
+            @RequestBody UserModel user, HttpSession session) {
+
+        Map<String, Object> map = new HashMap<>();
+
         String encodedPw = encryptUtil.encode(user.getUserPw()); // 비밀번호 암호화
         User dbUser = userRepository.findByUserIdAndUserPw(user.getUserId(), encodedPw);
         if (dbUser == null) {
-            return "redirect:/login";
+            map.put("msg", "ID 또는 PW를 확인해주세요.");
+            return map;
         }
         session.setAttribute("user", user);
-        return "redirect:/main";
+        map.put("msg", "로그인되었습니다.");
+        return map;
         // redirect:/OOO : 사용자가 보내온 요청을 처리한 후 그 요청을 새롭게 /OOO 주소로 보냄
         // 기존에 받은 요청(ex.userId, userPw)은 없어짐
         // 기존에 받은 요청을 같이 새로운 곳으로 보내고 싶다면 ?OOO 작성해주면됨

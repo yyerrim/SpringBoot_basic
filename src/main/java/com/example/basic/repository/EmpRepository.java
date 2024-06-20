@@ -2,6 +2,7 @@ package com.example.basic.repository;
 
 import java.util.List;
 
+import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 
@@ -23,5 +24,11 @@ public interface EmpRepository extends JpaRepository<Emp, Integer> {
 
     // SAL>2000 조회 ===> 여러명이기 때문에 List로 수정
     public List<Emp> findBySalGreaterThan(Integer sal); // 조회4
+
+    public List<Emp> findByEnameLike(String ename, Pageable pageable);
+    // Pageable pageable : 마지막 매개변수로 넣어줘야함
+
+    // 이름으로 오름차순 정렬 : Sort 보다 우선순위 높음
+    public List<Emp> findByEnameLikeOrderByEnameAsc(String ename, Pageable pageable);
 
 }
