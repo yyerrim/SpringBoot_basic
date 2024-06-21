@@ -27,6 +27,7 @@ import com.example.basic.repository.PlayerRepository;
 import com.example.basic.repository.ServiceCenterRepository;
 import com.example.basic.repository.TableExam1Repository;
 import com.example.basic.repository.TeamRepository;
+import com.example.basic.service.HospitalService;
 
 @RestController
 public class DBController {
@@ -175,10 +176,14 @@ public class DBController {
     // hospital 조회
     @Autowired
     HospitalRepository hospitalRepository;
+    @Autowired
+    HospitalService hospitalService;
 
     @GetMapping("/hos/list")
     public List<Hospital> hosList() {
-        return hospitalRepository.findAll();
+        // return hospitalRepository.findAll();
+        List<Hospital> result = hospitalService.getJson();
+        return result;
     }
 
     // Team, Player 조회 (JSON)

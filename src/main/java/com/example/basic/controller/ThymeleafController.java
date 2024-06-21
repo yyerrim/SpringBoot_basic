@@ -20,6 +20,7 @@ import com.example.basic.entity.Emp;
 import com.example.basic.entity.Hospital;
 import com.example.basic.repository.EmpRepository;
 import com.example.basic.repository.HospitalRepository;
+import com.example.basic.service.HospitalService;
 
 @Controller
 public class ThymeleafController {
@@ -143,16 +144,22 @@ public class ThymeleafController {
     }
 
     // 강사님 풀이
+    // ===> HospitalService.java
+    // 서비스로 코드를 옮기는것에 기준은 없음(모든 코드가 들어가지는 않아도됨)
+    @Autowired
+    HospitalService hospitalService;
+
     @GetMapping("/html/hospital")
     public String hospital(Model model,
             @RequestParam(defaultValue = "1") int page) {
         int startPage = (page - 1) / 10 * 10 + 1;
         int endPage = startPage + 9;
-        Order ord1 = Order.asc("sido");
-        Order ord2 = Order.desc("name");
-        Sort sort = Sort.by(ord1, ord2);
-        Pageable pageable = PageRequest.of(page - 1, 10, sort);
-        Page<Hospital> p = hospitalRepository.findAll(pageable);
+        // Order ord1 = Order.asc("sido");
+        // Order ord2 = Order.desc("name");
+        // Sort sort = Sort.by(ord1, ord2);
+        // Pageable pageable = PageRequest.of(page - 1, 10, sort);
+        // Page<Hospital> p = hospitalRepository.findAll(pageable);
+        Page<Hospital> p = hospitalService.getList(page);
 
         int totalPage = p.getTotalPages();
         if (endPage > totalPage) {
