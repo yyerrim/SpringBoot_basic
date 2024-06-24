@@ -13,6 +13,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,6 +24,14 @@ import jakarta.servlet.http.HttpServletRequest;
 
 @RestController
 public class RequestController {
+    @GetMapping("/referer")
+    public String referer(
+            @RequestHeader(value = "referer", required = false) String referer) {
+        return referer + "";
+    }
+    // localhost:8080/referer => null 출력
+    // localhost/ => 이동 누르면 localhost:8080/referer 페이지에 localhost:8080 출력
+
     @GetMapping("req/http")
     public String http(HttpServletRequest request) {
         String name = request.getParameter("name");
@@ -62,7 +71,6 @@ public class RequestController {
     // }
     // return jt.queryForList(sql);
     // }
-
     // // 규리&강사님 풀이
     // @Autowired JdbcTemplate jt;
     // @GetMapping("req/emp")

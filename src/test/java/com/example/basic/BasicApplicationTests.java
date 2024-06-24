@@ -20,6 +20,8 @@ import com.example.basic.entity.Team;
 import com.example.basic.repository.MajorRepository;
 import com.example.basic.repository.PlayerRepository;
 import com.example.basic.repository.TeamRepository;
+import com.example.basic.util.Mailer;
+import com.example.basic.util.SMTPAuthenticator;
 
 @SpringBootTest // 건들지말기 (없어도 junit 동작은 함)
 // 없으면 스프링에서 만들어놓은 Bean을 가져올 수 없기 때문에 스프링 테스트 불가
@@ -162,6 +164,14 @@ class BasicApplicationTests { // 보통 테스트 하려는 것과 관련된 이
 		md.update(rawAndSalt.getBytes());
 		hex = String.format("%064x", new BigInteger(1, md.digest()));
 		System.out.println("raw+salt의 해시값 : " + hex);
+	}
+
+	// 이메일 발송
+	@Autowired
+	Mailer mailer;
+	@Test
+	void 이메일발송() {
+		mailer.sendMail("sinyada3@gmail.com", "안녕", "누구게", new SMTPAuthenticator());
 	}
 
 }

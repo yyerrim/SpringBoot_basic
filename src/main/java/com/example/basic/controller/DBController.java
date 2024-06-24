@@ -183,6 +183,10 @@ public class DBController {
     public List<Hospital> hosList() {
         // return hospitalRepository.findAll();
         List<Hospital> result = hospitalService.getJson();
+
+        // 20240624 ControllerAspect.java 테스트를 위해 오류 코드 추가
+        System.out.println(4 / 0);
+
         return result;
     }
 

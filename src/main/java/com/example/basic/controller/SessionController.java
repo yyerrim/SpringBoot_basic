@@ -133,14 +133,15 @@ public class SessionController {
 
     @GetMapping("/main")
     public String main(HttpSession session) {
-        UserModel u = (UserModel) session.getAttribute("user"); // object로 들어갔다가 object로 나오기 때문에 형변환
-        if (u == null) {
-            return "redirect:/login";
-            // "로그인 하고 오세요"를 출력할 수 있는 view 파일을 만들어서 리턴시켜도됨
-        }
-        String id = u.getUserId();
-        String pw = u.getUserPw();
-        System.out.println(id + ", " + pw); // TERMINAL에 값 출력됨
+        // // 20240624 SignInCheckInterceptor.java 테스트를 위해 주석 처리
+        // UserModel u = (UserModel) session.getAttribute("user"); // object로 들어갔다가 object로 나오기 때문에 형변환
+        // if (u == null) {
+        //     return "redirect:/login";
+        //     // "로그인 하고 오세요"를 출력할 수 있는 view 파일을 만들어서 리턴시켜도됨
+        // }
+        // String id = u.getUserId();
+        // String pw = u.getUserPw();
+        // System.out.println(id + ", " + pw); // TERMINAL에 값 출력됨
         return "main";
     }
 }
