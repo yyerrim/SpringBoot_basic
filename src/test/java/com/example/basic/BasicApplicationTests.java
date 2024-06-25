@@ -166,7 +166,7 @@ class BasicApplicationTests { // 보통 테스트 하려는 것과 관련된 이
 		System.out.println("raw+salt의 해시값 : " + hex);
 	}
 
-	// 이메일 발송
+	// 이메일 발송 (util - Mailer.java , SMTPAuthenticator.java)
 	@Autowired
 	Mailer mailer;
 	@Test
